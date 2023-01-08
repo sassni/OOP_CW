@@ -28,7 +28,14 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
             System.out.print("Enter your choice (1 - 4): ");
 
             // Read user's choice
-            int choice = scanner.nextInt();
+            int choice = 0;
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+            } else {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.nextLine(); // consume the invalid input
+                continue;
+            }
 
             if (choice == 1) {
                 // Add a new doctor
@@ -104,14 +111,24 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
         System.out.println("Total number of doctors in the centre: " + doctors.size());
     }
 
+//    private void printDoctors() {
+//        // Sort the list of doctors alphabetically by surname
+//        doctors.sort(new Comparator<Doctor>() {
+//            @Override
+//            public int compare(Doctor d1, Doctor d2) {
+//                return d1.getName().split(" ")[1].compareTo(d2.getName().split(" ")[1]);
+//            }
+//        });
+//
+//        // Print list of doctors
+//        for (Doctor doctor : doctors) {
+//            System.out.println(doctor);
+//        }
+//    }
+
     private void printDoctors() {
-        // Sort the list of doctors alphabetically by surname
-        doctors.sort(new Comparator<Doctor>() {
-            @Override
-            public int compare(Doctor d1, Doctor d2) {
-                return d1.getName().split(" ")[1].compareTo(d2.getName().split(" ")[1]);
-            }
-        });
+        // Sort doctors by surname
+        doctors.sort(Comparator.comparing(Doctor::getSurname));
 
         // Print list of doctors
         for (Doctor doctor : doctors) {
@@ -119,16 +136,17 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
         }
     }
 
+
     private void saveDoctorsToFile() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("doctors.dat"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("doctors.txt", true))) {
             out.writeObject(doctors);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 
     private void loadDoctorsFromFile() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("doctors.dat"))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("doctors.txt"))) {
             doctors = (List<Doctor>) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             // File not found or invalid format, ignore and start with an empty list of doctors

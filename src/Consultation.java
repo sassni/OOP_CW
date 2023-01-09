@@ -4,6 +4,15 @@ public class Consultation {
     Doctor doctor;
     Patient patient;
 
+    public Consultation(String date, String time, String note, double cost, Doctor doctor, Patient patient) {
+        this.date = date;
+        this.time = time;
+        this.note = note;
+        this.cost = cost;
+        this.doctor = doctor;
+        this.patient = patient;
+    }
+
     public void setDate(String date) {
         this.date = date;
     }

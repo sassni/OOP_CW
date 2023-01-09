@@ -20,7 +20,7 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
 
         while (true) {
             // Display menu
-            System.out.println("Westminster Skin Consultation Manager");
+            System.out.println("\nWestminster Skin Consultation Manager\n");
             System.out.println("1. Add a new doctor");
             System.out.println("2. Delete a doctor");
             System.out.println("3. Print list of doctors");
@@ -58,9 +58,10 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
         saveDoctorsToFile();
     }
 
+    // Add doctor
     public void addDoctor() {
         if (doctors.size() == 10) {
-            System.out.println("Cannot add more doctors. The maximum number of doctors has been reached.");
+            System.out.println("Cannot add more doctors. The maximum number of doctors has been reached."); // If doctors more than 10
             return;
         }
 
@@ -77,10 +78,10 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
 
         System.out.print("Enter doctor's mobile number: ");
         int mobileNumber = 0;
-        if (scanner.hasNextInt()) {
+        if (scanner.hasNextInt()) { // If input is integer
             mobileNumber = scanner.nextInt();
         } else {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Invalid input. Please enter a number."); // Else input is not an integer
             scanner.nextLine(); // consume the invalid input
             return;
         }
@@ -95,9 +96,10 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
         Doctor doctor = new Doctor(name, surname, dob, mobileNumber, medicalLicenseNumber, specialisation);
         doctors.add(doctor);
 
-        System.out.println("Doctor added successfully.");
+        System.out.println("Doctor added successfully."); // Display output message
     }
 
+    // Delete doctor
     public void deleteDoctor() {
         System.out.print("Enter doctor's medical licence number: ");
         String medicalLicenseNumber = scanner.next();
@@ -110,16 +112,17 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
             }
         }
 
-        if (doctorToDelete != null) {
+        if (doctorToDelete != null) { // If there is doctor it will be removed
             doctors.remove(doctorToDelete);
             System.out.println("Deleted doctor's information: " + doctorToDelete);
-        } else {
+        } else { // else if there is no doctor this message will be showed
             System.out.println("Doctor with licence number " + medicalLicenseNumber + " not found.");
         }
-        System.out.println("Total number of doctors in the centre: " + doctors.size());
+        System.out.println("Total number of doctors in the centre: " + doctors.size()); // Display the total number of doctors in the centre
 
     }
 
+    // Print the list of doctors
     public void printDoctors() {
         // Sort doctors by surname
         doctors.sort(Comparator.comparing(Doctor::getSurname));
@@ -130,30 +133,8 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
         }
     }
 
-//    public void bookConsultation(String date, String time, String note, double cost, Doctor doctor, Patient patient) {
-//        Consultation consultation = new Consultation(date, time, note, cost, doctor, patient);
-//        patient.addConsultation(consultation);
-//        doctor.addConsultation(consultation);
-//    }
-//
-//    public void cancelConsultation(Patient patient, Consultation consultation) {
-//        patient.removeConsultation(consultation);
-//        consultation.getDoctor().removeConsultation(consultation);
-//    }
-//
-//    public List<Consultation> getConsultationsForPatient(Patient patient) {
-//        return patient.getConsultations();
-//    }
 
-
-//    private void saveDoctorsToFile() {
-//        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("doctors.txt", true))) {
-//            out.writeObject(doctors);
-//        } catch (IOException e) {
-//            System.out.println(e);
-//        }
-//    }
-
+    // Add data to file
     private void saveDoctorsToFile() {
         try {
             FileOutputStream fos = new FileOutputStream("doctors.txt");
@@ -164,26 +145,11 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
         } catch (IOException e) {
             System.out.println(e);
         }
+        System.out.println("Added successfully");
     }
 
 
-
-//    private void loadDoctorsFromFile() {
-//        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("doctors.txt"))) {
-//            doctors = (List<Doctor>) in.readObject();
-//        } catch (IOException | ClassNotFoundException e) {
-//            // File not found or invalid format, ignore and start with an empty list of doctors
-//        }
-//    }
-
-//    private void loadDoctorsFromFile() {
-//        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("doctors.txt"))) {
-//            doctors = (List<Doctor>) in.readObject();
-//        } catch (IOException | ClassNotFoundException e) {
-//            // File not found or invalid format, ignore and start with an empty list of doctors
-//        }
-//    }
-
+    // Load data from file
     private void loadDoctorsFromFile() {
         try {
             FileInputStream fis = new FileInputStream("doctors.txt");
@@ -199,8 +165,9 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
 
 
     public static void main(String[] args) {
+        // create a new WestminsterSkinConsultationManager object
         WestminsterSkinConsultationManager manager = new WestminsterSkinConsultationManager();
-        manager.run();
+        manager.run(); // run the manager
     }
 
 }
